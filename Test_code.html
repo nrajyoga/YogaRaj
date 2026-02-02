@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine Wishes 💘</title>
+  <style>
+    :root{
+      --pink:#ff4d6d;
+      --pink2:#ff758f;
+      --bg1:#fff0f6;
+      --bg2:#ffe3ec;
+      --text:#2b2b2b;
+      --card:#ffffffcc;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(circle at 20% 20%, var(--bg2), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* Floating hearts background */
+    .heart{
+      position: fixed;
+      bottom: -40px;
+      font-size: 18px;
+      opacity: 0.9;
+      animation: floatUp linear forwards;
+      pointer-events:none;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+    }
+    @keyframes floatUp{
+      from{ transform: translateY(0) translateX(0) scale(1); opacity:1; }
+      to{ transform: translateY(-120vh) translateX(var(--drift)) scale(1.4); opacity:0; }
+    }
+
+    /* Screens */
+    .screen{
+      width:100%;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 16px;
+    }
+    .hidden{ display:none; }
+
+    .panel{
+      width:min(960px, 100%);
+      display:grid;
+      gap:18px;
+      align-items:center;
+    }
+
+    /* Landing */
+    .hero{
+      text-align:center;
+      padding:26px 18px;
+      border-radius:18px;
+      background: linear-gradient(135deg, #ffffffb0, #ffffff70);
+      border: 1px solid #ffd6e0;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+      backdrop-filter: blur(6px);
+    }
+    .hero h1{
+      margin:0 0 8px;
+      font-size: clamp(28px, 4vw, 44px);
+      color: var(--pink);
+      letter-spacing: .2px;
+    }
+    .hero p{
+      margin: 0 auto 16px;
+      max-width: 52ch;
+      line-height:1.5;
+      opacity:0.9;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    input{
+      width:min(360px, 92vw);
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #ffc2d1;
+      outline:none;
+      font-size:16px;
+      background:#fff;
+    }
+    input:focus{
+      border-color: var(--pink2);
+      box-shadow: 0 0 0 4px rgba(255,117,143,0.18);
+    }
+
+    .btn{
+      padding:12px 16px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:15px;
+      transition: transform .08s ease, opacity .2s ease;
+      color:#fff;
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+    }
+    .btn:active{ transform: scale(0.98); }
+    .btn.secondary{
+      background:#ffffff;
+      color: var(--pink);
+      border:1px solid #ffc2d1;
+    }
+
+    /* Reveal Screen */
+    .cardWrap{
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+    @media (max-width: 860px){
+      .cardWrap{ grid-template-columns: 1fr; }
+    }
+
+    .valCard{
+      border-radius:18px;
+      background: linear-gradient(180deg, #ffffffcc, #ffffffa8);
+      border: 1px solid #ffd6e0;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+      padding:18px;
+      backdrop-filter: blur(6px);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .ribbon{
+      position:absolute;
+      top:14px;
+      right:-50px;
+      transform: rotate(35deg);
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color:#fff;
+      padding:8px 60px;
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:1px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+
+    .titleLine{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:6px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid #ffd6e0;
+      font-size:13px;
+      font-weight:700;
+      color: var(--pink);
+    }
+
+    .wish{
+      margin-top:10px;
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height:1.35;
+      font-weight:800;
+      color:#1f1f1f;
+    }
+    .wish .name{
+      color: var(--pink);
+      text-decoration: underline wavy rgba(255,77,109,0.35);
+      text-underline-offset: 6px;
+    }
+    .subwish{
+      margin-top:10px;
+      line-height:1.6;
+      font-size:15.5px;
+      opacity:0.92;
+    }
+
+    /* Animated “open” effect */
+    .envelope{
+      margin-top:14px;
+      border-radius:16px;
+      border:1px dashed #ff9bb0;
+      padding:14px;
+      background:#fff;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .pulse{
+      width:44px; height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color:#fff;
+      animation:pulse 1.3s infinite ease-in-out;
+      flex:0 0 auto;
+    }
+    @keyframes pulse{
+      0%{ transform:scale(1); box-shadow:0 0 0 0 rgba(255,77,109,0.35); }
+      70%{ transform:scale(1.05); box-shadow:0 0 0 14px rgba(255,77,109,0); }
+      100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(255,77,109,0); }
+    }
+
+    /* GIF panel */
+    .media{
+      border-radius:18px;
+      overflow:hidden;
+      border: 1px solid #ffd6e0;
+      background: var(--card);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.06);
+      backdrop-filter: blur(6px);
+    }
+    .mediaTop{
+      padding:12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      border-bottom:1px solid #ffd6e0;
+      background:#fff;
+    }
+    .mediaTop small{ opacity:0.75; }
+    .gifBox{
+      width:100%;
+      aspect-ratio: 4 / 3;
+      background: #fff;
+      display:grid;
+      place-items:center;
+      padding:10px;
+    }
+    .gifBox img{
+      max-width:100%;
+      max-height:100%;
+      border-radius:14px;
+    }
+
+    .footerBtns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    /* Tiny toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:#111;
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .25s ease;
+    }
+    .toast.show{ opacity:0.92; }
+  </style>
+</head>
+
+<body>
+  <!-- Screen 1 -->
+  <section class="screen" id="screen1">
+    <div class="panel">
+      <div class="hero">
+        <h1>💘 Valentine Wishes</h1>
+        <p>Enter a name and I’ll reveal a cute Valentine card with a matching GIF and message.</p>
+
+        <div class="row">
+          <input id="nameInput" type="text" placeholder="Enter name (e.g., Yogaraj)" />
+          <button class="btn" onclick="goToWish()">Open Card 💌</button>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn secondary" onclick="randomName()">Try Random Name 🎲</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screen 2 -->
+  <section class="screen hidden" id="screen2">
+    <div class="panel">
+      <div class="cardWrap">
+
+        <!-- Greeting card -->
+        <div class="valCard">
+          <div class="ribbon">VALENTINE</div>
+
+          <div class="titleLine">
+            <span class="badge">💝 Personalized Wish</span>
+            <span class="badge" id="dateBadge"></span>
+          </div>
+
+          <div class="wish" id="wishLine">Loading...</div>
+          <div class="subwish" id="subWish">Loading...</div>
+
+          <div class="envelope">
+            <div class="pulse">💌</div>
+            <div>
+              <div style="font-weight:800;">A little note for you</div>
+              <div style="opacity:.8; font-size:13px;">Tap “Copy Message” to share it anywhere.</div>
+            </div>
+          </div>
+
+          <div class="footerBtns">
+            <button class="btn" onclick="copyWish()">Copy Message 📋</button>
+            <button class="btn secondary" onclick="back()">Back 🔙</button>
+            <button class="btn secondary" onclick="newGif()">Change GIF 🖼️</button>
+          </div>
+        </div>
+
+        <!-- GIF / media -->
+        <div class="media">
+          <div class="mediaTop">
+            <div>
+              <div style="font-weight:800;">Valentine GIF</div>
+              <small>Auto-selected based on mood</small>
+            </div>
+            <button class="btn secondary" onclick="newGif()">Shuffle</button>
+          </div>
+          <div class="gifBox">
+            <img id="gifImg" alt="Valentine gif" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    // --------- Customize Wishes by Name ----------
+    // You can add more names here (lowercase keys).
+    const wishesByName = {
+      yogaraj: {
+        title: "Happy Valentine’s Day, <span class='name'>Yogaraj</span> 💖",
+        body: "May your day be filled with love, calm smiles, and sweet surprises. You deserve the best—today and always 🌹"
+      },
+      roman: {
+        title: "Happy Valentine’s Day, <span class='name'>Roman</span> ❤️",
+        body: "Wishing you warmth, happiness, and good vibes. Hope your day is as wonderful as your support 🙌"
+      },
+      Aarthi: {
+        title: "Valentine’s Wishes, <span class='name'>Aarthi</span> 💝",
+        body: "May love and positivity follow you everywhere today. Keep smiling and keep winning ✨"
+      }
+    };
+
+    // Default wish if name not found
+    function defaultWish(name){
+      return {
+        title: `Happy Valentine’s Day, <span class="name">${escapeHtml(name)}</span> 💕`,
+        body: "May your life be filled with love, laughter, and beautiful moments. Sending you lots of good vibes 🌸"
+      };
+    }
+
+    // --------- GIF Options (Replace URLs if you want) ----------
+    // NOTE: These are public GIF URLs; you can change to your preferred ones.
+    const gifList = [
+      "https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif",
+      "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
+      "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif",
+      "https://media.giphy.com/media/1BcfiGuO4N3xK/giphy.gif",
+      "https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif"
+    ];
+
+    let currentName = "";
+    let currentWishText = "";
+    let gifIndex = 0;
+
+    function goToWish(){
+      const name = document.getElementById("nameInput").value.trim();
+      if(!name){
+        alert("Please enter a name 💌");
+        return;
+      }
+      currentName = name;
+      renderWish(name);
+      showScreen(2);
+      burstHearts(); // a small celebration
+    }
+
+    function renderWish(name){
+      const key = name.toLowerCase();
+      const data = wishesByName[key] || defaultWish(name);
+
+      document.getElementById("wishLine").innerHTML = data.title;
+      document.getElementById("subWish").innerText = data.body;
+
+      // For copy message (plain text)
+      const cleanTitle = stripHtml(data.title);
+      currentWishText = `${cleanTitle}\n\n${data.body}`;
+
+      // Date badge
+      const d = new Date();
+      const opts = { year:"numeric", month:"short", day:"numeric" };
+      document.getElementById("dateBadge").innerText = d.toLocaleDateString(undefined, opts);
+
+      // Set GIF
+      gifIndex = Math.floor(Math.random() * gifList.length);
+      document.getElementById("gifImg").src = gifList[gifIndex];
+    }
+
+    function newGif(){
+      gifIndex = (gifIndex + 1) % gifList.length;
+      document.getElementById("gifImg").src = gifList[gifIndex];
+      burstHearts(10);
+    }
+
+    function back(){
+      showScreen(1);
+      document.getElementById("nameInput").focus();
+    }
+
+    function showScreen(n){
+      document.getElementById("screen1").classList.toggle("hidden", n !== 1);
+      document.getElementById("screen2").classList.toggle("hidden", n !== 2);
+    }
+
+    function copyWish(){
+      if(!currentWishText) return;
+      navigator.clipboard.writeText(currentWishText).then(() => toast("Copied 💖"));
+    }
+
+    function toast(msg){
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 1200);
+    }
+
+    function randomName(){
+      const names = ["Yogaraj","Roman","Aarthi","Priya","Rahul","Aisha","Kiran"];
+      document.getElementById("nameInput").value = names[Math.floor(Math.random()*names.length)];
+    }
+
+    // --------- Hearts animation ----------
+    function burstHearts(count = 18){
+      const hearts = ["💗","💖","💘","💝","❤️","💕"];
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        el.style.left = Math.random()*100 + "vw";
+        el.style.animationDuration = (3 + Math.random()*2.8) + "s";
+        el.style.setProperty("--drift", (Math.random()*160 - 80) + "px");
+        el.style.fontSize = (14 + Math.random()*18) + "px";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }
+    }
+
+    // Helpers
+    function stripHtml(html){
+      const div = document.createElement("div");
+      div.innerHTML = html;
+      return div.textContent || div.innerText || "";
+    }
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+  </script>
+</body>
+</html>
